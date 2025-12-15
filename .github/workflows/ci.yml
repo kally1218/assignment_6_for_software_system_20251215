@@ -24,5 +24,3 @@ jobs:
 
       - name: Run tests (E2E, performance & CHANGELOG)
         run: pytest
-        env:
-          PYTHONPATH: ${{ github.workspace }}/assignment_6_for_software_system_20251215 
