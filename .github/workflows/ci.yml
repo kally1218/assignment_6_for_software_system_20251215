@@ -11,58 +11,35 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8","3.9", "3.10", "3.11"]
 
     steps:
-      # Step 1: Checkout code
+      # 1. 检出代码
       - uses: actions/checkout@v3
 
-      # Step 2: Set up Python
+      # 2. 设置 Python
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      # Step 3: Install dependencies
+      # 3. 安装依赖
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest pytest-cov requests
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install -r requirements.txt
 
-      # Step 4: Run E2E tests
+      # 4. 运行 E2E 测试
       - name: Run E2E tests
         run: |
-          pytest tests/test_e2e.py -v --maxfail=1 --disable-warnings
+          pytest tests/test_e2e.py -v
 
-      # Step 5: Run performance tests
-      - name: Run performance tests
+      # 5. 运行性能测试
+      - name: Run Performance tests
         run: |
-          pytest tests/test_performance.py -v --maxfail=1 --disable-warnings
+          pytest tests/test_performance.py -v
 
-      # Step 6: Run CHANGELOG tests
+      # 6. 运行 CHANGELOG 测试
       - name: Run CHANGELOG tests
         run: |
-          pytest tests/test_changelog.py -v --maxfail=1 --disable-warnings
-
-      # Step 7: Run all tests with coverage
-      - name: Run all tests with coverage
-        run: |
-          pytest tests/ -v --cov=. --cov-report=term-missing --cov-report=html
-
-      # Step 8: Upload coverage HTML report
-      - name: Upload coverage HTML report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: coverage-report-${{ matrix.python-version }}
-          path: htmlcov/
-
-      # Step 9: Coverage summary (only for Python 3.9)
-      - name: Coverage Summary
-        if: matrix.python-version == '3.9'
-        run: |
-          echo "##Coverage Summary##" >> GITHUB_STEP_SUMMARY
-          echo '```' >> GITHUB_STEP_SUMMARY
-          pytest tests/ --cov= --cov-report=term | grep -E "(TOTAL|Name)" | tail -n 2 >> GITHUB_STEP_SUMMARY
-          echo '```' >> GITHUB_STEP_SUMMARY
+          pytest tests/test_changelog.py -v
