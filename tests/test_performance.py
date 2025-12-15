@@ -3,6 +3,10 @@ import time
 import pytest
 from multiprocessing import Process
 import app
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 def start_app():
     app.app.run(port=5001)
