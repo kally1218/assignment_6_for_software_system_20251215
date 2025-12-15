@@ -5,7 +5,7 @@ from multiprocessing import Process
 import sys
 import os
 
-# 把项目根目录加入 Python 搜索路径
+# add project root to Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import app
@@ -20,7 +20,7 @@ def test_performance():
     time.sleep(1)
 
     start = time.time()
-    for i in range(20):  # 连续请求 20 次
+    for i in range(20):  # send 20 consecutive requests
         res = requests.get("http://127.0.0.1:5001/")
         assert res.status_code == 200
     end = time.time()
@@ -29,4 +29,4 @@ def test_performance():
 
     total = end - start
     print(f"20 requests took ≈ {total:.2f} seconds")
-    assert total < 5  # 比如期望 5 秒内完成
+    assert total < 5  # ensure it takes less than 5 seconds for 20 requests

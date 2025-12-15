@@ -2,11 +2,11 @@ import os
 import re
 
 def test_changelog_has_version():
-    # 获取 tests 文件所在目录
+    # get the directory of the current test file
     tests_dir = os.path.dirname(__file__)
-    # 仓库根目录
+    # get the repository root directory
     repo_root = os.path.abspath(os.path.join(tests_dir, '..'))
-    # CHANGELOG.md 的绝对路径
+    # get the absolute path of CHANGELOG.md
     changelog_path = os.path.join(repo_root, 'CHANGELOG.md')
 
     with open(changelog_path, 'r', encoding='utf-8') as f:
